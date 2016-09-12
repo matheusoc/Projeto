@@ -6,6 +6,7 @@ public class Medico {
 	private String nasc;
 	private String reg;
 	private String idade;
+	private static final int MEDICO = 1;
 	
 	public String getNome() {
 		return nome;

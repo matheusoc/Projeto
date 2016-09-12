@@ -77,6 +77,8 @@ public class LoginFrame extends JFrame {
 		for(String list: array) {
 			if(list.equals(user)) {
 				JOptionPane.showMessageDialog(null, "Login feito com sucesso!!!");
+				new MainFrame(800, 640);
+				dispose();
 				tag = 1;
 				break;
 			} 
