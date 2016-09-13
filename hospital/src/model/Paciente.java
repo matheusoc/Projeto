@@ -7,6 +7,9 @@ public class Paciente {
 	private int idade;
 	private String[] alergias;
 	private String entrada;
+	
+	public static final int PACIENTE = 4;
+	
 	public String getNome() {
 		return nome;
 	}

@@ -6,7 +6,7 @@ public class Farmaceutico {
 	private String nasc;
 	private String reg;
 	private String idade;
-	private static final int FARMACEUTICO = 3;
+	public static final int FARMACEUTICO = 3;
 	
 	public String getNome() {
 		return nome;

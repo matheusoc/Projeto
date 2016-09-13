@@ -31,7 +31,11 @@ public class PacienteFrame extends JFrame{
 	
 	public PacientePanel getPacientePanel(){
 		if(pacientePanel == null) {
-			pacientePanel = new PacientePanel();
+			try {
+				pacientePanel = new PacientePanel();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return pacientePanel;
 	}

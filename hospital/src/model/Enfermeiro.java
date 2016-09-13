@@ -6,7 +6,8 @@ public class Enfermeiro {
 	private String nasc;
 	private String reg;
 	private String idade;
-	private static final int ENFERMEIRO = 2;
+	
+	public static final int ENFERMEIRO = 2;
 	
 	public String getNome() {
 		return nome;
