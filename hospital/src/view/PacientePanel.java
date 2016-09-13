@@ -9,6 +9,8 @@ import java.text.ParseException;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -46,6 +48,12 @@ public class PacientePanel extends JPanel {
 	private GridBagConstraints roomConstraints;
 	private JFormattedTextField roomField;
 	private GridBagConstraints roomFieldConstraints;
+	
+	private JLabel allergyText;
+	private GridBagConstraints allergyTextConstraints;
+	private JScrollPane allergyScrollPane;
+	private JTextArea allergyArea;
+	private GridBagConstraints allergyAreaConstraints;
 	
 	public PacientePanel() throws ParseException{
 		init();
@@ -91,6 +99,9 @@ public class PacientePanel extends JPanel {
 		
 		add(getRoomText(), getRoomConstraints());
 		add(getRoomField(), getRoomFieldConstraints());
+		
+		add(getAllergyText(), getAllergyTextConstraints());
+		add(getAllergyScrollPane(), getAllergyAreaConstraints());
 	}
 	
 	public JLabel getNameText() {
@@ -106,6 +117,7 @@ public class PacientePanel extends JPanel {
 			nameConstraints.gridx = 0;
 			nameConstraints.gridy = 0;
 			nameConstraints.insets = new Insets(2, 2, 2, 2);
+			nameConstraints.anchor = GridBagConstraints.WEST;
 		}
 		return nameConstraints;
 	}
@@ -190,6 +202,7 @@ public class PacientePanel extends JPanel {
 			enterTextConstraints.gridx = 0;
 			enterTextConstraints.gridy = 1;
 			enterTextConstraints.insets = new Insets(2, 2, 2, 2);
+			enterTextConstraints.anchor = GridBagConstraints.WEST;
 		}
 		return enterTextConstraints;
 	}
@@ -307,6 +320,55 @@ public class PacientePanel extends JPanel {
 		}
 		return roomFieldConstraints;
 	}
+
+	public JLabel getAllergyText() {
+		if(allergyText == null){
+			allergyText = new JLabel("Observações:");
+		}
+		return allergyText;
+	}
+
+	public GridBagConstraints getAllergyTextConstraints() {
+		if(allergyTextConstraints == null){
+			allergyTextConstraints = new GridBagConstraints();
+			allergyTextConstraints.gridx = 0;
+			allergyTextConstraints.gridy = 2;
+			allergyTextConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
+			allergyTextConstraints.insets = new Insets(2, 2, 2, 2);
+		}
+		return allergyTextConstraints;
+	}
+
+	public JScrollPane getAllergyScrollPane() {
+		if(allergyScrollPane == null) {
+			allergyScrollPane = new JScrollPane(getAllergyArea());
+			allergyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			allergyScrollPane.setPreferredSize(new Dimension(250, 50));
+		}
+		return allergyScrollPane;
+	}
+
+	public JTextArea getAllergyArea() {
+		if(allergyArea == null) {
+			allergyArea = new JTextArea();
+			allergyArea.setLineWrap(true);
+			allergyArea.setWrapStyleWord(true);
+		}
+		return allergyArea;
+	}
+
+	public GridBagConstraints getAllergyAreaConstraints() {
+		if(allergyAreaConstraints == null) {
+			allergyAreaConstraints = new GridBagConstraints();
+		}
+		allergyAreaConstraints.gridx = 1;
+		allergyAreaConstraints.gridy = 2;
+		allergyAreaConstraints.gridwidth = 6;
+		allergyAreaConstraints.anchor = GridBagConstraints.WEST;
+		allergyAreaConstraints.insets = new Insets(2, 2, 2, 2);
+		return allergyAreaConstraints;
+	}
+	
 	
 		
 }
