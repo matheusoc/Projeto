@@ -8,6 +8,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import model.Medico;
+import view.funcionario.FuncionarioFrame;
+import view.login.LoginFrame;
+import view.paciente.PacienteFrame;
+
 public class MainFrame extends JFrame{
 
 	private static final long serialVersionUID = 8456560429229699542L;
@@ -16,14 +21,23 @@ public class MainFrame extends JFrame{
 	
 	private JMenu menuRegister;
 	private JMenu menuList;
+	private JMenu opcao;
 	
 	private JMenuItem itemPaciente;
 	private JMenuItem itemFuncionario;
 	
 	private JMenuItem listPacientes;
 	private JMenuItem listFuncionarios;
+	
+	private JMenuItem sair;
+	
+	
+	private int access;
 
-	public MainFrame(int width, int height) {
+	public MainFrame(int width, int height, int access) {
+		
+		this.access = access;
+		
 		setVisible(true);
 		setSize(width, height);
 		setResizable(false);
@@ -41,8 +55,11 @@ public class MainFrame extends JFrame{
 	private JMenuBar getMainMenuBar() {
 		if(menuBar == null) {
 			menuBar = new JMenuBar();
-			menuBar.add(getMenuRegister());
+			if(access == 4 || access == Medico.MEDICO)	{
+				menuBar.add(getMenuRegister());
+			}
 			menuBar.add(getMenuList());
+			menuBar.add(getOpcao());
 		}
 		return menuBar;
 	}
@@ -51,11 +68,21 @@ public class MainFrame extends JFrame{
 		if(menuRegister == null) {
 			menuRegister = new JMenu("Cadastrar");
 			menuRegister.add(getItemPaciente());
-			menuRegister.addSeparator();
-			menuRegister.add(getItemFuncionario());
-		
+			if(access == 4) {
+				menuRegister.addSeparator();
+				menuRegister.add(getItemFuncionario());
+			}
+			
 		}
 		return menuRegister;
+	}
+	
+	public JMenu getOpcao(){
+		if(opcao == null) {
+			opcao = new JMenu("Opções");
+			opcao.add(getSair());
+		}
+		return opcao;
 	}
 	
 	public JMenu getMenuList() {
@@ -66,6 +93,14 @@ public class MainFrame extends JFrame{
 			menuList.add(getListFuncionarios());
 		}
 		return menuList;
+	}
+	
+	public JMenuItem getSair(){
+		if(sair == null) {
+			sair = new JMenuItem("Sair");
+			sair.addActionListener(sairDaConta());
+		}
+		return sair;
 	}
 
 	public JMenuItem getItemPaciente() {
@@ -115,7 +150,18 @@ public class MainFrame extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				new FuncionarioFrame();
+			}
+		};
+	}
+	
+	private ActionListener sairDaConta(){
+		return new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new LoginFrame();
+				dispose();
 			}
 		};
 	}

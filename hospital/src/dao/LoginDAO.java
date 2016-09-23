@@ -7,18 +7,24 @@ import java.util.Scanner;
 
 public class LoginDAO {
 	
+	private static final String LOGINFILE = "logins.txt";
+	
 	private Scanner scanner;
 	
-	public ArrayList readFile(){
-		File file = new File("logins.txt");
-		ArrayList<String> array = new ArrayList<>();
+	public ArrayList<String[]> readFile(){
+		File file = new File(LOGINFILE);
+		ArrayList<String[]> array = new ArrayList<>();
+		String line;
+		String[] dados;
 		if(file.exists()) {
 			
 			try {
 				
 				scanner = new Scanner(file);
 				while(scanner.hasNextLine()) {
-					array.add(scanner.nextLine());
+					line = scanner.nextLine();
+					dados = line.split(";");
+					array.add(dados);
 				}
 			} catch(FileNotFoundException e) {
 				

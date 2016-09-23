@@ -1,9 +1,6 @@
 package controller;
 
-import view.MainFrame;
-import view.PacienteFrame;
-import view.LoginFrame;
-import dao.LoginDAO;
+import view.login.LoginFrame;
 
 public class Main {
 

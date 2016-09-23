@@ -2,6 +2,7 @@ package view.components;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -28,6 +29,7 @@ public class ButtonsPanel extends JPanel{
 	public JButton getOkButton() {
 		if(okButton == null) {
 			okButton = new JButton("OK");
+			okButton.setMnemonic(KeyEvent.VK_ENTER);
 		}
 		okButton.addActionListener(new ActionListener() {
 			
