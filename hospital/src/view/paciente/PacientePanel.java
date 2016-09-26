@@ -371,9 +371,9 @@ public class PacientePanel extends JPanel {
 	}
 	
 	public boolean checkEmpty() throws ParseException{
-		if(getNameField().getText().equals("")|| getNascField().equals("") ||
-				getEnterField().equals("") || getAgeField().equals("") ||
-				getRoomField().equals("") || getAllergyArea().equals("")) {
+		if(getNameField().getText().equals("")|| getNascField().getText().equals("") ||
+				getEnterField().getText().equals("") || getAgeField().getText().equals("") ||
+				getRoomField().getText().equals("")) {
 			
 			JOptionPane.showMessageDialog(null, "Há campos sem preencher");
 			return false;

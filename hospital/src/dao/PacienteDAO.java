@@ -15,11 +15,12 @@ public class PacienteDAO {
 	private static final String PACIENTEFILE = "pacientes.txt";
 	
 	public void writeFile(String textToWrite) throws IOException{
+		ConfigDAO dao = new ConfigDAO();
 		File file = new File(PACIENTEFILE);
 		if(!file.exists()){
 			file.createNewFile();
 		}
-		
+		textToWrite = dao.read()+";"+ textToWrite;
 		FileOutputStream fos = new FileOutputStream(file, true);
 		PrintStream ps = new PrintStream(fos);
 		ps.println(textToWrite);

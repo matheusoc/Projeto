@@ -1,4 +1,2 @@
 admin;admin;4
-medico;medico;1
-enfermeiro;enfermeiro;2
-farmaceutico;farmaceutico;3
+matheus;mat123;1

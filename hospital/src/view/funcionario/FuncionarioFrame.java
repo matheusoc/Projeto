@@ -1,9 +1,13 @@
 package view.funcionario;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
+import java.text.ParseException;
 
 import javax.swing.JFrame;
 
+import dao.FuncionarioDAO;
+import dao.LoginDAO;
 import view.components.ButtonsListener;
 import view.components.ButtonsPanel;
 
@@ -67,6 +71,24 @@ public class FuncionarioFrame extends JFrame {
 		dispose();
 	}
 	private void okClicked() {
+		
+		try{
+			if(getFuncionarioPanel().checkEmpty()) {
+				String write = getFuncionarioPanel().toString();
+				String writeLogin = getFuncionarioPanel().getLogin();
+				FuncionarioDAO fDAO = new FuncionarioDAO();
+				LoginDAO lDAO = new LoginDAO();
+				try {
+					fDAO.writeFile(write);
+					lDAO.writeFile(writeLogin);
+				} catch(IOException e){
+					
+				}
+				dispose();
+			}
+		} catch(ParseException e) {
+			
+		}
 		
 	}
 }

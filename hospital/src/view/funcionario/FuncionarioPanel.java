@@ -9,6 +9,7 @@ import java.text.ParseException;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -17,6 +18,10 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
+
+import model.Enfermeiro;
+import model.Farmaceutico;
+import model.Medico;
 
 public class FuncionarioPanel extends JPanel{
 
@@ -450,4 +455,64 @@ public class FuncionarioPanel extends JPanel{
 		return pass2FieldConstraints;
 	}
 	
+	@Override
+	public String toString() {
+		String function = null;
+		StringBuilder sb = new StringBuilder();
+		sb.append(getNameField().getText()+";");
+		try {
+			sb.append(getNascField().getText()+";");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		sb.append(getAgeField().getText()+";");
+		sb.append(getCampoRegistro().getText()+";");
+		switch(getFuncaoComboBox().getSelectedItem().toString()){
+		case "Medico":
+			function = String.valueOf(Medico.MEDICO);
+			break;
+		case "Enfermeiro":
+			function = String.valueOf(Enfermeiro.ENFERMEIRO);
+			break;
+		case "Farmaceutico": 
+			function = String.valueOf(Farmaceutico.FARMACEUTICO);
+			break;
+		}
+		sb.append(function);
+		
+		return sb.toString();
+	}
+	
+	public String getLogin(){
+		String function = null;
+		StringBuilder sb = new StringBuilder();
+		sb.append(getLoginField().getText()+";");
+		sb.append(String.valueOf(getPass1Field().getPassword())+";");
+		switch(getFuncaoComboBox().getSelectedItem().toString()){
+		case "Medico":
+			function = String.valueOf(Medico.MEDICO);
+			break;
+		case "Enfermeiro":
+			function = String.valueOf(Enfermeiro.ENFERMEIRO);
+			break;
+		case "Farmaceutico": 
+			function = String.valueOf(Farmaceutico.FARMACEUTICO);
+			break;
+		}
+		sb.append(function);
+		return sb.toString();
+	}
+	
+	public boolean checkEmpty() throws ParseException{
+		if(getNameField().getText().equals("")|| getNascField().getText().equals("") ||
+				getCampoRegistro().getText().equals("") || getAgeField().getText().equals("") ||
+				getLoginField().getText().equals("") || String.valueOf(getPass1Field().getPassword()).equals("")
+				|| String.valueOf(getPass2Field().getPassword()).equals("")) {
+			
+			JOptionPane.showMessageDialog(null, "Há campos sem preencher");
+			return false;
+		}
+		JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
+		return true;
+	}
 }
