@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,6 +32,8 @@ public class MainFrame extends JFrame{
 	
 	private JMenuItem sair;
 	
+	private TablePanel tablePanel;
+	private HospitalPane hospitalPane;
 	
 	private int access;
 
@@ -48,6 +51,8 @@ public class MainFrame extends JFrame{
 	}
 	
 	private void init(){
+		add(getTablePanel(), BorderLayout.CENTER);
+		add(getHospitalPane(), BorderLayout.WEST);
 		setJMenuBar(getMainMenuBar());
 	}
 
@@ -135,6 +140,23 @@ public class MainFrame extends JFrame{
 		return listFuncionarios;
 	}
 	
+	
+	
+	public TablePanel getTablePanel() {
+		if(tablePanel == null) {
+			tablePanel = new TablePanel();
+		}
+		return tablePanel;
+	}
+	
+
+	public HospitalPane getHospitalPane() {
+		if(hospitalPane == null){
+			hospitalPane = new HospitalPane();
+		}
+		return hospitalPane;
+	}
+
 	private ActionListener cadastrarPaciente() {
 		return new ActionListener() {
 			

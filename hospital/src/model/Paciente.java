@@ -2,6 +2,7 @@ package model;
 
 public class Paciente {
 	
+	private int id;
 	private String nome;
 	private String nasc;
 	private int idade;
@@ -40,7 +41,11 @@ public class Paciente {
 	public void setEntrada(String entrada) {
 		this.entrada = entrada;
 	}
-	
-	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 }

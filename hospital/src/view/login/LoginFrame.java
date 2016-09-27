@@ -79,7 +79,7 @@ public class LoginFrame extends JFrame {
 			String line = list[0]+";"+list[1];
 			if(line.equals(user)) {
 				JOptionPane.showMessageDialog(null, "Login feito com sucesso!!!");
-				new MainFrame(800, 640, Integer.valueOf(list[2]));
+				new MainFrame(700, 540, Integer.valueOf(list[2]));
 				dispose();
 				tag = 1;
 				break;
