@@ -21,19 +21,14 @@ public class MainFrame extends JFrame{
 	private JMenuBar menuBar;
 	
 	private JMenu menuRegister;
-	private JMenu menuList;
 	private JMenu opcao;
 	
 	private JMenuItem itemPaciente;
 	private JMenuItem itemFuncionario;
 	
-	private JMenuItem listPacientes;
-	private JMenuItem listFuncionarios;
-	
 	private JMenuItem sair;
 	
 	private TablePanel tablePanel;
-	private HospitalPane hospitalPane;
 	
 	private int access;
 
@@ -52,7 +47,6 @@ public class MainFrame extends JFrame{
 	
 	private void init(){
 		add(getTablePanel(), BorderLayout.CENTER);
-		add(getHospitalPane(), BorderLayout.WEST);
 		setJMenuBar(getMainMenuBar());
 	}
 
@@ -63,7 +57,6 @@ public class MainFrame extends JFrame{
 			if(access == 4 || access == Medico.MEDICO)	{
 				menuBar.add(getMenuRegister());
 			}
-			menuBar.add(getMenuList());
 			menuBar.add(getOpcao());
 		}
 		return menuBar;
@@ -90,16 +83,6 @@ public class MainFrame extends JFrame{
 		return opcao;
 	}
 	
-	public JMenu getMenuList() {
-		if(menuList == null) {
-			menuList = new JMenu("Listar");
-			menuList.add(getListPacientes());
-			menuList.addSeparator();
-			menuList.add(getListFuncionarios());
-		}
-		return menuList;
-	}
-	
 	public JMenuItem getSair(){
 		if(sair == null) {
 			sair = new JMenuItem("Sair");
@@ -123,38 +106,13 @@ public class MainFrame extends JFrame{
 			itemFuncionario.addActionListener(cadastrarFuncionario());
 		}
 		return itemFuncionario;
-	}
-
-	
-	public JMenuItem getListPacientes() {
-		if(listPacientes == null) {
-			listPacientes = new JMenuItem("Pacientes");
-		}
-		return listPacientes;
-	}
-
-	public JMenuItem getListFuncionarios() {
-		if(listFuncionarios == null) {
-			listFuncionarios = new JMenuItem("Funcionários");
-		}
-		return listFuncionarios;
-	}
-	
-	
+	}	
 	
 	public TablePanel getTablePanel() {
 		if(tablePanel == null) {
-			tablePanel = new TablePanel();
+			tablePanel = new TablePanel(access);
 		}
 		return tablePanel;
-	}
-	
-
-	public HospitalPane getHospitalPane() {
-		if(hospitalPane == null){
-			hospitalPane = new HospitalPane();
-		}
-		return hospitalPane;
 	}
 
 	private ActionListener cadastrarPaciente() {

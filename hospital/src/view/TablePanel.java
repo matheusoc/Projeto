@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -15,11 +17,13 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import dao.PacienteDAO;
+import dao.RemediosDAO;
+import model.Enfermeiro;
+import model.Farmaceutico;
+import model.Medico;
 import view.medicamentos.AdicionarMedFrame;
 
 public class TablePanel extends JPanel{
@@ -36,7 +40,10 @@ public class TablePanel extends JPanel{
 	
 	private JPanel buttonPanel;
 	
-	public TablePanel(){
+	private int access;
+	
+	public TablePanel(int access){
+		this.access = access;
 		init();
 	}
 	
@@ -63,13 +70,17 @@ public class TablePanel extends JPanel{
 			modelo.addColumn("Registro");
 			modelo.addColumn("Nome");
 			modelo.addColumn("Quarto");
+			modelo.addColumn("Medicamentos");
 			table.getColumnModel().getColumn(0).setPreferredWidth(40);
-			table.getColumnModel().getColumn(1).setPreferredWidth(500);
-			table.getColumnModel().getColumn(2).setPreferredWidth(50);
+			table.getColumnModel().getColumn(1).setPreferredWidth(350);
+			table.getColumnModel().getColumn(2).setPreferredWidth(40);
+			table.getColumnModel().getColumn(3).setPreferredWidth(200);
 			atualisarModelo(getModelo());
 			table.setPreferredScrollableViewportSize(new Dimension(300, 300));
 			table.setFillsViewportHeight(true);
-			table.getSelectionModel().addListSelectionListener(selection());;
+			table.addMouseListener(addAction());
+			
+			
 		}
 		return table;
 	}
@@ -94,10 +105,30 @@ public class TablePanel extends JPanel{
 	public void atualisarModelo(DefaultTableModel modelo){
 		modelo.setNumRows(0);
 		PacienteDAO dao = new PacienteDAO();
+		RemediosDAO rDAO = new RemediosDAO();
 		ArrayList<String[]> pacientes = dao.readFile();
-		
+		ArrayList<String[]> remedios = rDAO.readFile();
+		int tag = 0;
 		for(String[] paciente : pacientes){
-			modelo.addRow(new Object[]{paciente[0], paciente[1], paciente[5]});
+			for(String[] remedio: remedios){
+				if(paciente[0].equals(remedio[0])){
+					String confirm = null;
+					if(remedio[3].equals("nok")){
+						confirm = "Medicamento não está pronto";
+					} else if(remedio[3].equals("ok")){
+						confirm = "Medicamento está pronto";
+					}  else if (remedio[3].equals("med")){
+						confirm = "Pronto para ser medicado";
+					}
+					modelo.addRow(new Object[]{paciente[0], paciente[1], paciente[5], confirm});
+					tag = 1;
+					break;
+				}
+			}
+			if(tag == 0){
+				modelo.addRow(new Object[]{paciente[0], paciente[1], paciente[5], "Não há medicamentos"});
+			}
+			tag = 0;
 		}
 	}
 
@@ -139,25 +170,40 @@ public class TablePanel extends JPanel{
 		};
 	}
 	
-	private ListSelectionListener selection() {
-		return new ListSelectionListener() {
-			
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				getTable().getSelectedRow();
-				String id = (String) getTable().getModel().getValueAt(getTable().getSelectedRow(), 0);
-				PacienteDAO dao = new PacienteDAO();
-				ArrayList<String[]> pacientes = dao.readFile();
-				for(String[] paciente : pacientes) {
-					if(paciente[0].equals(id)){
-						int confirm = JOptionPane.showConfirmDialog(null, "Deseja cadastrar um remédio ao paciente de registro "+id+" ?");
-						if(confirm == JOptionPane.OK_OPTION){
-							new AdicionarMedFrame(id);
+	private MouseAdapter addAction(){
+		return new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				if(e.getClickCount() == 2){
+						if(Medico.MEDICO == access || access == 4 && checkOK("Não há medicamentos")) {
+						String id = (String) getTable().getModel().getValueAt(getTable().getSelectedRow(), 0);
+						PacienteDAO dao = new PacienteDAO();
+						ArrayList<String[]> pacientes = dao.readFile();
+						for(String[] paciente : pacientes) {
+							if(paciente[0].equals(id)){
+								int confirm = JOptionPane.showConfirmDialog(null, "Deseja cadastrar um remédio ao paciente de registro "+id+" ?");
+								if(confirm == JOptionPane.OK_OPTION){
+									new AdicionarMedFrame(id, access);
+								}
+							}
 						}
+					} else if(Farmaceutico.FARMACEUTICO == access && checkOK("Medicamento não está pronto")){
+						String id = (String) getTable().getModel().getValueAt(getTable().getSelectedRow(), 0);
+						new AdicionarMedFrame(id, access);
+					} else if(Enfermeiro.ENFERMEIRO == access && checkOK("Pronto para ser medicado")){
+						String id = (String) getTable().getModel().getValueAt(getTable().getSelectedRow(), 0);
+						new AdicionarMedFrame(id, access);
 					}
 				}
 			}
 		};
+	}
+	
+	private boolean checkOK(String string){
+		String status = (String) getTable().getModel().getValueAt(getTable().getSelectedRow(), 3);
+		if(status.equals(string)){
+			return true;
+		} 
+		return false;
 	}
 	
 }
