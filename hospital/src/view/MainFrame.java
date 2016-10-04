@@ -8,7 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
+import controller.ResetAll;
 import model.Medico;
 import view.funcionario.FuncionarioFrame;
 import view.login.LoginFrame;
@@ -26,6 +28,7 @@ public class MainFrame extends JFrame{
 	private JMenuItem itemPaciente;
 	private JMenuItem itemFuncionario;
 	
+	private JMenuItem resetar;
 	private JMenuItem sair;
 	
 	private TablePanel tablePanel;
@@ -79,6 +82,10 @@ public class MainFrame extends JFrame{
 		if(opcao == null) {
 			opcao = new JMenu("Opções");
 			opcao.add(getSair());
+			if(access == 4) {
+				opcao.addSeparator();
+				opcao.add(getResetar());
+			}
 		}
 		return opcao;
 	}
@@ -89,6 +96,16 @@ public class MainFrame extends JFrame{
 			sair.addActionListener(sairDaConta());
 		}
 		return sair;
+	}
+	
+	
+
+	public JMenuItem getResetar() {
+		if(resetar == null) {
+			resetar = new JMenuItem("Resetar Sistema");
+			resetar.addActionListener(resetarSistema());
+		}
+		return resetar;
 	}
 
 	public JMenuItem getItemPaciente() {
@@ -142,6 +159,21 @@ public class MainFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				new LoginFrame();
 				dispose();
+			}
+		};
+	}
+	
+	private ActionListener resetarSistema(){
+		return new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int i = JOptionPane.showConfirmDialog(null, "Deseja resetar o sistema?");
+				if(i == JOptionPane.OK_OPTION)	{
+					ResetAll.resetAll();
+					JOptionPane.showMessageDialog(null, "Resetado com sucesso!!!");
+				}
+	
 			}
 		};
 	}

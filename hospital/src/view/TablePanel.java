@@ -71,7 +71,7 @@ public class TablePanel extends JPanel{
 			modelo.addColumn("Nome");
 			modelo.addColumn("Quarto");
 			modelo.addColumn("Medicamentos");
-			table.getColumnModel().getColumn(0).setPreferredWidth(40);
+			table.getColumnModel().getColumn(0).setPreferredWidth(50);
 			table.getColumnModel().getColumn(1).setPreferredWidth(350);
 			table.getColumnModel().getColumn(2).setPreferredWidth(40);
 			table.getColumnModel().getColumn(3).setPreferredWidth(200);
